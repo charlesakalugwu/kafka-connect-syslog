@@ -1,12 +1,12 @@
 /**
  * Copyright © 2016 Jeremy Custenborder (jcustenborder@gmail.com)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,7 @@
 package com.github.jcustenborder.kafka.connect.syslog;
 
 import com.github.jcustenborder.kafka.connect.syslog.config.BaseSyslogSourceConfig;
-import io.confluent.kafka.connect.utils.data.SourceRecordConcurrentLinkedDeque;
+import com.github.jcustenborder.kafka.connect.utils.data.SourceRecordConcurrentLinkedDeque;
 import org.apache.kafka.connect.source.SourceRecord;
 import org.apache.kafka.connect.source.SourceTask;
 import org.graylog2.syslog4j.server.SyslogServer;

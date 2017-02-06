@@ -17,7 +17,7 @@ package com.github.jcustenborder.kafka.connect.syslog;
 
 import com.github.jcustenborder.kafka.connect.syslog.config.BaseSyslogSourceConfig;
 import com.github.jcustenborder.kafka.connect.syslog.config.TCPSyslogSourceConfig;
-import io.confluent.kafka.connect.utils.config.MarkdownFormatter;
+import com.github.jcustenborder.kafka.connect.utils.config.MarkdownFormatter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

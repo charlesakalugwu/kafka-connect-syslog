@@ -16,7 +16,7 @@
 package com.github.jcustenborder.kafka.connect.syslog;
 
 import com.github.jcustenborder.kafka.connect.syslog.config.SSLTCPSyslogSourceConfig;
-import io.confluent.kafka.connect.utils.config.MarkdownFormatter;
+import com.github.jcustenborder.kafka.connect.utils.config.MarkdownFormatter;
 import org.junit.jupiter.api.Test;
 
 public class SSLTCPSyslogSourceConfigTest {
