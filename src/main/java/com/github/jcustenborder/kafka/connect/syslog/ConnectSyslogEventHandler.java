@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,6 @@
  */
 package com.github.jcustenborder.kafka.connect.syslog;
 
-import com.github.jcustenborder.kafka.connect.syslog.config.BaseSyslogSourceConfig;
 import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.data.SchemaBuilder;
 import org.apache.kafka.connect.data.Struct;
@@ -45,31 +44,58 @@ class ConnectSyslogEventHandler implements SyslogServerSessionlessEventHandlerIF
   public static final String REMOTE_ADDRESS = "remote_address";
   public static final String HOSTNAME = "hostname";
   private static Logger log = LoggerFactory.getLogger(ConnectSyslogEventHandler.class);
-  final Schema keySchema;
-  final Schema valueSchema;
+  static final Schema KEY_SCHEMA = SchemaBuilder.struct().name("com.github.jcustenborder.kafka.connect.syslog.SyslogKey")
+      .doc("This schema represents the key that is written to Kafka for syslog data. This will ensure that all data for " +
+          "a host ends up in the same partition.")
+      .field(
+          REMOTE_ADDRESS,
+          SchemaBuilder.string().doc("The ip address of the host that sent the syslog message.").build()
+      )
+      .build();
+  static final Schema VALUE_SCHEMA = SchemaBuilder.struct().name("com.github.jcustenborder.kafka.connect.syslog.SyslogValue")
+      .doc("This schema represents a syslog message that is written to Kafka.")
+      .field(
+          DATE,
+          Timestamp.builder().optional().doc("The timestamp of the message.").build()
+      )
+      .field(
+          FACILITY,
+          SchemaBuilder.int32().optional().doc("The facility of the message.").build()
+      )
+      .field(
+          HOST,
+          SchemaBuilder.string().optional().doc("The host of the message.").build()
+      )
+      .field(
+          LEVEL,
+          SchemaBuilder.int32().optional().doc("The level of the syslog message as defined by [rfc5424](https://tools.ietf.org/html/rfc5424)").build()
+      )
+      .field(
+          MESSAGE,
+          SchemaBuilder.string().optional().doc("The text for the message.").build()
+      )
+      .field(
+          CHARSET,
+          SchemaBuilder.string().optional().doc("The character set of the message.").build()
+      )
+      .field(
+          REMOTE_ADDRESS,
+          SchemaBuilder.string().optional().doc("The ip address of the host that sent the syslog message.").build()
+      )
+      .field(
+          HOSTNAME,
+          SchemaBuilder.string().optional().doc("The reverse DNS of the `" + REMOTE_ADDRESS + "` field.").build()
+      )
+      .build();
+
+
   final ConcurrentLinkedDeque<SourceRecord> recordQueue;
-  final BaseSyslogSourceConfig config;
+  final BaseSyslogSourceConnectorConfig config;
   HostnameResolver hostnameResolver;
 
-  public ConnectSyslogEventHandler(ConcurrentLinkedDeque<SourceRecord> recordQueue, BaseSyslogSourceConfig config) {
+  public ConnectSyslogEventHandler(ConcurrentLinkedDeque<SourceRecord> recordQueue, BaseSyslogSourceConnectorConfig config) {
     this.recordQueue = recordQueue;
     this.config = config;
-
-    this.keySchema = SchemaBuilder.struct().name("com.github.jcustenborder.kafka.connect.syslog.SyslogKey")
-        .field(REMOTE_ADDRESS, Schema.STRING_SCHEMA)
-        .build();
-
-    this.valueSchema = SchemaBuilder.struct().name("com.github.jcustenborder.kafka.connect.syslog.SyslogValue")
-        .field(DATE, Timestamp.builder().optional().build())
-        .field(FACILITY, Schema.OPTIONAL_INT32_SCHEMA)
-        .field(HOST, Schema.OPTIONAL_STRING_SCHEMA)
-        .field(LEVEL, Schema.OPTIONAL_INT32_SCHEMA)
-        .field(MESSAGE, Schema.OPTIONAL_STRING_SCHEMA)
-        .field(CHARSET, Schema.OPTIONAL_STRING_SCHEMA)
-        .field(REMOTE_ADDRESS, Schema.OPTIONAL_STRING_SCHEMA)
-        .field(HOSTNAME, Schema.OPTIONAL_STRING_SCHEMA)
-        .build();
-
     this.hostnameResolver = new HostnameResolverImpl(this.config);
   }
 
@@ -83,10 +109,10 @@ class ConnectSyslogEventHandler implements SyslogServerSessionlessEventHandlerIF
     Map<String, String> sourceOffset = new HashMap<>();
     String remoteAddress = socketAddress.toString();
 
-    Struct keyStruct = new Struct(this.keySchema)
+    Struct keyStruct = new Struct(this.KEY_SCHEMA)
         .put(REMOTE_ADDRESS, remoteAddress);
 
-    Struct valueStruct = new Struct(this.valueSchema)
+    Struct valueStruct = new Struct(this.VALUE_SCHEMA)
         .put(DATE, event.getDate())
         .put(FACILITY, event.getFacility())
         .put(HOST, event.getHost())
@@ -120,9 +146,9 @@ class ConnectSyslogEventHandler implements SyslogServerSessionlessEventHandlerIF
         sourceOffset,
         this.config.topic(),
         null,
-        this.keySchema,
+        KEY_SCHEMA,
         keyStruct,
-        this.valueSchema,
+        VALUE_SCHEMA,
         valueStruct
     );
     this.recordQueue.add(sourceRecord);

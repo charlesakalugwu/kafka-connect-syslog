@@ -15,10 +15,11 @@
  */
 package com.github.jcustenborder.kafka.connect.syslog;
 
-import com.github.jcustenborder.kafka.connect.syslog.config.TCPSyslogSourceConfig;
+import com.github.jcustenborder.kafka.connect.utils.config.Description;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.connect.connector.Task;
 
+@Description("Connector is used to receive syslog messages over TCP.")
 public class TCPSyslogSourceConnector extends SyslogSourceConnector {
   @Override
   public Class<? extends Task> taskClass() {
@@ -27,6 +28,6 @@ public class TCPSyslogSourceConnector extends SyslogSourceConnector {
 
   @Override
   public ConfigDef config() {
-    return TCPSyslogSourceConfig.getConfig();
+    return TCPSyslogSourceConnectorConfig.getConfig();
   }
 }

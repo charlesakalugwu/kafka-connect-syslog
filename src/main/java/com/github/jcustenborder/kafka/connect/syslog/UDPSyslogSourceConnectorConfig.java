@@ -15,13 +15,23 @@
  */
 package com.github.jcustenborder.kafka.connect.syslog;
 
-import com.github.jcustenborder.kafka.connect.syslog.config.UDPSyslogSourceConfig;
-import com.github.jcustenborder.kafka.connect.utils.config.MarkdownFormatter;
-import org.junit.jupiter.api.Test;
+import org.apache.kafka.common.config.ConfigDef;
+import org.graylog2.syslog4j.server.impl.net.udp.UDPNetSyslogServer;
 
-public class UDPSyslogSourceConfigTest {
-  @Test
-  public void doc() {
-    System.out.println(MarkdownFormatter.toMarkdown(UDPSyslogSourceConfig.getConfig()));
+import java.util.Map;
+
+
+class UDPSyslogSourceConnectorConfig extends BaseSyslogSourceConnectorConfig {
+  public UDPSyslogSourceConnectorConfig(Map<String, String> originals) {
+    super(config(), originals);
+  }
+
+  public static ConfigDef getConfig() {
+    return config();
+  }
+
+  @Override
+  public Class getSyslogServerClass() {
+    return UDPNetSyslogServer.class;
   }
 }

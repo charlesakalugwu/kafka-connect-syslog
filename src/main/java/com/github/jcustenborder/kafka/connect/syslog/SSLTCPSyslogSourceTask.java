@@ -15,14 +15,12 @@
  */
 package com.github.jcustenborder.kafka.connect.syslog;
 
-import com.github.jcustenborder.kafka.connect.syslog.config.SSLTCPSyslogSourceConfig;
-
 import java.util.Map;
 
 
-public class SSLTCPSyslogSourceTask extends SyslogSourceTask<SSLTCPSyslogSourceConfig> {
+public class SSLTCPSyslogSourceTask extends SyslogSourceTask<SSLTCPSyslogSourceConnectorConfig> {
   @Override
-  SSLTCPSyslogSourceConfig createConfig(Map<String, String> props) {
-    return new SSLTCPSyslogSourceConfig(props);
+  SSLTCPSyslogSourceConnectorConfig createConfig(Map<String, String> props) {
+    return new SSLTCPSyslogSourceConnectorConfig(props);
   }
 }

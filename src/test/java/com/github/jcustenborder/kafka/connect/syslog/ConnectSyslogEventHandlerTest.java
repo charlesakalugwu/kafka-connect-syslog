@@ -15,7 +15,6 @@
  */
 package com.github.jcustenborder.kafka.connect.syslog;
 
-import com.github.jcustenborder.kafka.connect.syslog.config.TCPSyslogSourceConfig;
 import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.source.SourceRecord;
 import org.graylog2.syslog4j.server.SyslogServerEventIF;
@@ -33,7 +32,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ConnectSyslogEventHandlerTest {
-  TCPSyslogSourceConfig config;
+  TCPSyslogSourceConnectorConfig config;
 
   @BeforeEach
   public void setup() {

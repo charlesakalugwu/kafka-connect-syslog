@@ -15,7 +15,7 @@
  */
 package com.github.jcustenborder.kafka.connect.syslog;
 
-import com.github.jcustenborder.kafka.connect.syslog.config.BaseSyslogSourceConfig;
+import com.github.jcustenborder.kafka.connect.utils.VersionUtil;
 import com.github.jcustenborder.kafka.connect.utils.data.SourceRecordConcurrentLinkedDeque;
 import org.apache.kafka.connect.source.SourceRecord;
 import org.apache.kafka.connect.source.SourceTask;
@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 
-public abstract class SyslogSourceTask<T extends BaseSyslogSourceConfig> extends SourceTask {
+public abstract class SyslogSourceTask<T extends BaseSyslogSourceConnectorConfig> extends SourceTask {
   private static final Logger log = LoggerFactory.getLogger(SyslogSourceTask.class);
   SourceRecordConcurrentLinkedDeque messageQueue;
   ConnectSyslogEventHandler syslogEventHandler;
@@ -41,7 +41,7 @@ public abstract class SyslogSourceTask<T extends BaseSyslogSourceConfig> extends
 
   @Override
   public String version() {
-    return VersionUtil.getVersion();
+    return VersionUtil.version(this.getClass());
   }
 
   abstract T createConfig(Map<String, String> props);

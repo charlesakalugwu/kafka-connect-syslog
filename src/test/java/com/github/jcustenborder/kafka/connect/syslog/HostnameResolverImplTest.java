@@ -15,7 +15,6 @@
  */
 package com.github.jcustenborder.kafka.connect.syslog;
 
-import com.github.jcustenborder.kafka.connect.syslog.config.BaseSyslogSourceConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class HostnameResolverImplTest {
   HostnameResolverImpl resolver;
 
-  BaseSyslogSourceConfig config;
+  BaseSyslogSourceConnectorConfig config;
 
   @BeforeEach
   public void setup() {
