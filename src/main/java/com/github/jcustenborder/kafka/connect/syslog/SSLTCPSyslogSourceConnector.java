@@ -15,10 +15,11 @@
  */
 package com.github.jcustenborder.kafka.connect.syslog;
 
-import com.github.jcustenborder.kafka.connect.syslog.config.SSLTCPSyslogSourceConfig;
+import com.github.jcustenborder.kafka.connect.utils.config.Description;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.connect.connector.Task;
 
+@Description("Connector is used to receive syslog messages via SSL over TCP.")
 public class SSLTCPSyslogSourceConnector extends SyslogSourceConnector {
   @Override
   public Class<? extends Task> taskClass() {
@@ -27,7 +28,7 @@ public class SSLTCPSyslogSourceConnector extends SyslogSourceConnector {
 
   @Override
   public ConfigDef config() {
-    return SSLTCPSyslogSourceConfig.getConfig();
+    return SSLTCPSyslogSourceConnectorConfig.getConfig();
   }
 
 

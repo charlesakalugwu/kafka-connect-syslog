@@ -15,7 +15,6 @@
  */
 package com.github.jcustenborder.kafka.connect.syslog;
 
-import com.github.jcustenborder.kafka.connect.syslog.config.BaseSyslogSourceConfig;
 import com.google.common.base.Preconditions;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -32,10 +31,10 @@ import java.util.concurrent.TimeUnit;
 
 class HostnameResolverImpl implements HostnameResolver {
   private static final Logger log = LoggerFactory.getLogger(HostnameResolverImpl.class);
-  final BaseSyslogSourceConfig config;
+  final BaseSyslogSourceConnectorConfig config;
   final Cache<InetAddress, InetSocketAddress> reverseDnsCache;
 
-  public HostnameResolverImpl(BaseSyslogSourceConfig config) {
+  public HostnameResolverImpl(BaseSyslogSourceConnectorConfig config) {
     this.config = config;
     reverseDnsCache = CacheBuilder.newBuilder()
         .expireAfterWrite(this.config.reverseDnsCacheTtl(), TimeUnit.MILLISECONDS)

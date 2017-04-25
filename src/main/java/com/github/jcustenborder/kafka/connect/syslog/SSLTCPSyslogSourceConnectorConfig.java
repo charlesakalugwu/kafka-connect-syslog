@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.jcustenborder.kafka.connect.syslog.config;
+package com.github.jcustenborder.kafka.connect.syslog;
 
 import org.apache.kafka.common.config.ConfigDef;
 import org.graylog2.syslog4j.server.impl.net.tcp.ssl.SSLTCPNetSyslogServer;
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
-public class SSLTCPSyslogSourceConfig extends TCPSyslogSourceConfig implements SSLTCPNetSyslogServerConfigIF {
+class SSLTCPSyslogSourceConnectorConfig extends TCPSyslogSourceConnectorConfig implements SSLTCPNetSyslogServerConfigIF {
   public static final String KEYSTORE_CONFIG = "syslog.keystore";
   public static final String KEYSTORE_DOC = "Path to the keystore containing the ssl certificate for this host.";
   public static final String KEYSTORE_PASSWORD_CONFIG = "syslog.keystore.password";
@@ -32,15 +32,15 @@ public class SSLTCPSyslogSourceConfig extends TCPSyslogSourceConfig implements S
   public static final String TRUSTSTORE_DOC = "Path to the truststore containing the ssl certificate for this host.";
   public static final String TRUSTSTORE_PASSWORD_CONFIG = "syslog.truststore.password";
   public static final String TRUSTSTORE_PASSWORD_DOC = "Password for the truststore.";
-  private static final Logger log = LoggerFactory.getLogger(SSLTCPSyslogSourceConfig.class);
+  private static final Logger log = LoggerFactory.getLogger(SSLTCPSyslogSourceConnectorConfig.class);
 
 
-  public SSLTCPSyslogSourceConfig(Map<String, String> originals) {
+  public SSLTCPSyslogSourceConnectorConfig(Map<String, String> originals) {
     super(getConfig(), originals);
   }
 
   public static ConfigDef getConfig() {
-    return TCPSyslogSourceConfig.getConfig()
+    return TCPSyslogSourceConnectorConfig.getConfig()
         .define(KEYSTORE_CONFIG, ConfigDef.Type.STRING, ConfigDef.Importance.HIGH, KEYSTORE_DOC)
         .define(KEYSTORE_PASSWORD_CONFIG, ConfigDef.Type.PASSWORD, ConfigDef.Importance.HIGH, KEYSTORE_PASSWORD_DOC)
         .define(TRUSTSTORE_CONFIG, ConfigDef.Type.STRING, ConfigDef.Importance.HIGH, TRUSTSTORE_DOC)

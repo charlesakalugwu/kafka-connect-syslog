@@ -15,14 +15,12 @@
  */
 package com.github.jcustenborder.kafka.connect.syslog;
 
-import com.github.jcustenborder.kafka.connect.syslog.config.TCPSyslogSourceConfig;
-
 import java.util.Map;
 
 
-public class TCPSyslogSourceTask extends SyslogSourceTask<TCPSyslogSourceConfig> {
+public class TCPSyslogSourceTask extends SyslogSourceTask<TCPSyslogSourceConnectorConfig> {
   @Override
-  TCPSyslogSourceConfig createConfig(Map<String, String> props) {
-    return new TCPSyslogSourceConfig(props);
+  TCPSyslogSourceConnectorConfig createConfig(Map<String, String> props) {
+    return new TCPSyslogSourceConnectorConfig(props);
   }
 }

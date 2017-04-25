@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.jcustenborder.kafka.connect.syslog.config;
+package com.github.jcustenborder.kafka.connect.syslog;
 
 import org.apache.kafka.common.config.AbstractConfig;
 import org.apache.kafka.common.config.ConfigDef;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseSyslogSourceConfig extends AbstractConfig implements SyslogServerConfigIF {
+abstract class BaseSyslogSourceConnectorConfig extends AbstractConfig implements SyslogServerConfigIF {
   public static final String TOPIC_CONFIG = "kafka.topic";
   public static final String HOST_CONFIG = "syslog.host";
   public static final String PORT_CONFIG = "syslog.port";
@@ -39,7 +39,7 @@ public abstract class BaseSyslogSourceConfig extends AbstractConfig implements S
   public static final String REVERSE_DNS_IP_CONF = "syslog.reverse.dns.remote.ip";
   public static final String REVERSE_DNS_CACHE_TTL_CONF = "syslog.reverse.dns.cache.ms";
   public static final String BATCH_SIZE_CONF = "batch.size";
-  private static final Logger log = LoggerFactory.getLogger(BaseSyslogSourceConfig.class);
+  private static final Logger log = LoggerFactory.getLogger(BaseSyslogSourceConnectorConfig.class);
   private static final String TOPIC_DOC = "Kafka topic to write syslog data to.";
   private static final String HOST_DOC = "Hostname to listen on.";
   private static final String PORT_DOC = "Port to listen on.";
@@ -55,7 +55,7 @@ public abstract class BaseSyslogSourceConfig extends AbstractConfig implements S
 
   final List<SyslogServerEventHandlerIF> eventhandlers;
 
-  public BaseSyslogSourceConfig(ConfigDef definition, Map<String, String> originals) {
+  public BaseSyslogSourceConnectorConfig(ConfigDef definition, Map<String, String> originals) {
     super(definition, originals);
 
     this.eventhandlers = new ArrayList<>();

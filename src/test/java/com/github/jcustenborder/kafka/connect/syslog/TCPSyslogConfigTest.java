@@ -15,8 +15,6 @@
  */
 package com.github.jcustenborder.kafka.connect.syslog;
 
-import com.github.jcustenborder.kafka.connect.syslog.config.BaseSyslogSourceConfig;
-import com.github.jcustenborder.kafka.connect.syslog.config.TCPSyslogSourceConfig;
 import com.github.jcustenborder.kafka.connect.utils.config.MarkdownFormatter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,54 +31,32 @@ public class TCPSyslogConfigTest {
   final static Byte MAXACTIVESOCKETSBEHAVIOR = 0;
   final static String KAFKA_TOPIC = "syslog";
 
-  TCPSyslogSourceConfig config;
+  TCPSyslogSourceConnectorConfig config;
   Map<String, String> params;
 
 
-  public static TCPSyslogSourceConfig config() {
+  public static TCPSyslogSourceConnectorConfig config() {
     Map<String, String> params;
     params = new LinkedHashMap<>();
-    params.put(BaseSyslogSourceConfig.PORT_CONFIG, PORT.toString());
-    params.put(BaseSyslogSourceConfig.HOST_CONFIG, HOST);
-    params.put(BaseSyslogSourceConfig.TOPIC_CONFIG, KAFKA_TOPIC);
-    params.put(TCPSyslogSourceConfig.BACKLOG_CONFIG, BACKLOG.toString());
-    params.put(TCPSyslogSourceConfig.MAX_ACTIVE_SOCKETS_BEHAVIOR_CONFIG, MAXACTIVESOCKETSBEHAVIOR.toString());
-    params.put(TCPSyslogSourceConfig.MAX_ACTIVE_SOCKETS_CONFIG, MAXACTIVESOCKETS.toString());
-    params.put(TCPSyslogSourceConfig.REVERSE_DNS_IP_CONF, "true");
-    return new TCPSyslogSourceConfig(params);
+    params.put(BaseSyslogSourceConnectorConfig.PORT_CONFIG, PORT.toString());
+    params.put(BaseSyslogSourceConnectorConfig.HOST_CONFIG, HOST);
+    params.put(BaseSyslogSourceConnectorConfig.TOPIC_CONFIG, KAFKA_TOPIC);
+    params.put(TCPSyslogSourceConnectorConfig.BACKLOG_CONFIG, BACKLOG.toString());
+    params.put(TCPSyslogSourceConnectorConfig.MAX_ACTIVE_SOCKETS_BEHAVIOR_CONFIG, MAXACTIVESOCKETSBEHAVIOR.toString());
+    params.put(TCPSyslogSourceConnectorConfig.MAX_ACTIVE_SOCKETS_CONFIG, MAXACTIVESOCKETS.toString());
+    params.put(TCPSyslogSourceConnectorConfig.REVERSE_DNS_IP_CONF, "true");
+    return new TCPSyslogSourceConnectorConfig(params);
   }
 
   @BeforeEach
   public void setup() {
     this.params = new LinkedHashMap<>();
-    this.params.put(BaseSyslogSourceConfig.PORT_CONFIG, PORT.toString());
-    this.params.put(BaseSyslogSourceConfig.HOST_CONFIG, HOST);
-    this.params.put(BaseSyslogSourceConfig.TOPIC_CONFIG, KAFKA_TOPIC);
-    this.params.put(TCPSyslogSourceConfig.BACKLOG_CONFIG, BACKLOG.toString());
-    this.params.put(TCPSyslogSourceConfig.MAX_ACTIVE_SOCKETS_BEHAVIOR_CONFIG, MAXACTIVESOCKETSBEHAVIOR.toString());
-    this.params.put(TCPSyslogSourceConfig.MAX_ACTIVE_SOCKETS_CONFIG, MAXACTIVESOCKETS.toString());
-    this.config = new TCPSyslogSourceConfig(this.params);
+    this.params.put(BaseSyslogSourceConnectorConfig.PORT_CONFIG, PORT.toString());
+    this.params.put(BaseSyslogSourceConnectorConfig.HOST_CONFIG, HOST);
+    this.params.put(BaseSyslogSourceConnectorConfig.TOPIC_CONFIG, KAFKA_TOPIC);
+    this.params.put(TCPSyslogSourceConnectorConfig.BACKLOG_CONFIG, BACKLOG.toString());
+    this.params.put(TCPSyslogSourceConnectorConfig.MAX_ACTIVE_SOCKETS_BEHAVIOR_CONFIG, MAXACTIVESOCKETSBEHAVIOR.toString());
+    this.params.put(TCPSyslogSourceConnectorConfig.MAX_ACTIVE_SOCKETS_CONFIG, MAXACTIVESOCKETS.toString());
+    this.config = new TCPSyslogSourceConnectorConfig(this.params);
   }
-
-  @Test
-  public void doc() {
-    System.out.println(MarkdownFormatter.toMarkdown(TCPSyslogSourceConfig.getConfig()));
-  }
-
-
-//  @Test
-//  public void getSyslogServerConfig(){
-//
-//    Assert.assertNotNull("actual should not be null.", actual);
-//    Assert.assertThat(actual, instanceOf(TCPNetSyslogServerConfig.class));
-//    TCPNetSyslogServerConfig actualConfig = (TCPNetSyslogServerConfig) actual;
-//    Assert.assertEquals("Port does not match.", (int)PORT, actualConfig.getPort());
-//    Assert.assertEquals("HOST does not match.", HOST, actualConfig.getHost());
-//
-//    Assert.assertEquals("Backlog does not match.", (int)BACKLOG, actualConfig.getBacklog());
-//    Assert.assertEquals("MaxActiveSockets does not match.", (int)MAXACTIVESOCKETS, actualConfig.getMaxActiveSockets());
-//    Assert.assertEquals("MaxActiveSocketsBehavior does not match.", (Byte)MAXACTIVESOCKETSBEHAVIOR, (Byte)actualConfig.getMaxActiveSocketsBehavior());
-//  }
-
-
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.jcustenborder.kafka.connect.syslog.config;
+package com.github.jcustenborder.kafka.connect.syslog;
 
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.common.config.ConfigDef.Importance;
@@ -27,22 +27,22 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 
-public class TCPSyslogSourceConfig extends BaseSyslogSourceConfig implements TCPNetSyslogServerConfigIF {
+class TCPSyslogSourceConnectorConfig extends BaseSyslogSourceConnectorConfig implements TCPNetSyslogServerConfigIF {
   public static final String TIMEOUT_CONFIG = "syslog.timeout";
   public static final String BACKLOG_CONFIG = "syslog.backlog";
   public static final String MAX_ACTIVE_SOCKETS_CONFIG = "syslog.max.active.sockets";
   public static final String MAX_ACTIVE_SOCKETS_BEHAVIOR_CONFIG = "syslog.max.active.sockets.behavior";
-  private static final Logger log = LoggerFactory.getLogger(TCPSyslogSourceConfig.class);
+  private static final Logger log = LoggerFactory.getLogger(TCPSyslogSourceConnectorConfig.class);
   private static final String TIMEOUT_DOC = "Number of milliseconds before a timing out the connection.";
   private static final String BACKLOG_DOC = "Number of connections to allow in backlog.";
   private static final String MAX_ACTIVE_SOCKETS_DOC = "Maximum active sockets";
   private static final String MAX_ACTIVE_SOCKETS_BEHAVIOR_DOC = "Maximum active sockets";
 
-  public TCPSyslogSourceConfig(ConfigDef definition, Map<String, String> originals) {
+  public TCPSyslogSourceConnectorConfig(ConfigDef definition, Map<String, String> originals) {
     super(definition, originals);
   }
 
-  public TCPSyslogSourceConfig(Map<String, String> originals) {
+  public TCPSyslogSourceConnectorConfig(Map<String, String> originals) {
     super(getConfig(), originals);
   }
 
