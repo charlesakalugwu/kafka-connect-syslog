@@ -60,7 +60,7 @@ class SSLTCPSyslogSourceConnectorConfig extends TCPSyslogSourceConnectorConfig i
 
   @Override
   public String getKeyStorePassword() {
-    return this.getPassword(KEYSTORE_PASSWORD_CONFIG).toString();
+    return this.getPassword(KEYSTORE_PASSWORD_CONFIG).value();
   }
 
   @Override
@@ -82,7 +82,7 @@ class SSLTCPSyslogSourceConnectorConfig extends TCPSyslogSourceConnectorConfig i
 
   @Override
   public String getTrustStorePassword() {
-    return this.getPassword(TRUSTSTORE_PASSWORD_CONFIG).toString();
+    return this.getPassword(TRUSTSTORE_PASSWORD_CONFIG).value();
   }
 
   @Override
