@@ -16,9 +16,13 @@
 package com.github.jcustenborder.kafka.connect.syslog;
 
 import com.github.jcustenborder.kafka.connect.utils.config.Description;
+import com.github.jcustenborder.kafka.connect.utils.config.DocumentationImportant;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.connect.connector.Task;
 
+@DocumentationImportant("This connector listens on a network port. Running more than one task or running in distributed " +
+    "mode can cause some undesired effects if another task already has the port open. It is recommended that you run this " +
+    "connector in :term:`Standalone Mode`.")
 @Description("Connector is used to receive syslog messages over UDP.")
 public class UDPSyslogSourceConnector extends SyslogSourceConnector {
   @Override

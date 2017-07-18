@@ -25,11 +25,11 @@ import java.util.Map;
 
 class SSLTCPSyslogSourceConnectorConfig extends TCPSyslogSourceConnectorConfig implements SSLTCPNetSyslogServerConfigIF {
   public static final String KEYSTORE_CONFIG = "syslog.keystore";
-  public static final String KEYSTORE_DOC = "Path to the keystore containing the ssl certificate for this host.";
+  public static final String KEYSTORE_DOC = "Path to the keystore on the local system containing the ssl certificate for this host.";
   public static final String KEYSTORE_PASSWORD_CONFIG = "syslog.keystore.password";
   public static final String KEYSTORE_PASSWORD_DOC = "Password for the keystore.";
   public static final String TRUSTSTORE_CONFIG = "syslog.truststore";
-  public static final String TRUSTSTORE_DOC = "Path to the truststore containing the ssl certificate for this host.";
+  public static final String TRUSTSTORE_DOC = "Path to the truststore on the local system containing the ssl certificate for this host.";
   public static final String TRUSTSTORE_PASSWORD_CONFIG = "syslog.truststore.password";
   public static final String TRUSTSTORE_PASSWORD_DOC = "Password for the truststore.";
   private static final Logger log = LoggerFactory.getLogger(SSLTCPSyslogSourceConnectorConfig.class);

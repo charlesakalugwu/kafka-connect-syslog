@@ -15,6 +15,7 @@
  */
 package com.github.jcustenborder.kafka.connect.syslog;
 
+import com.github.jcustenborder.kafka.connect.utils.config.ValidPort;
 import org.apache.kafka.common.config.AbstractConfig;
 import org.apache.kafka.common.config.ConfigDef;
 import org.graylog2.syslog4j.SyslogConstants;
@@ -65,7 +66,7 @@ abstract class BaseSyslogSourceConnectorConfig extends AbstractConfig implements
     return new ConfigDef()
         .define(TOPIC_CONFIG, ConfigDef.Type.STRING, ConfigDef.Importance.HIGH, TOPIC_DOC)
         .define(HOST_CONFIG, ConfigDef.Type.STRING, null, ConfigDef.Importance.HIGH, HOST_DOC)
-        .define(PORT_CONFIG, ConfigDef.Type.INT, ConfigDef.Importance.HIGH, PORT_DOC)
+        .define(PORT_CONFIG, ConfigDef.Type.INT, 5514, ValidPort.of(1000, 65535), ConfigDef.Importance.HIGH, PORT_DOC)
         .define(STRUCTURED_DATA_CONFIG, ConfigDef.Type.BOOLEAN, false, ConfigDef.Importance.LOW, STRUCTURED_DATA_DOC)
         .define(BACKOFF_CONFIG, ConfigDef.Type.INT, 100, ConfigDef.Range.atLeast(50), ConfigDef.Importance.LOW, BACKOFF_DOC)
         .define(CHARSET_CONFIG, ConfigDef.Type.STRING, CHARSET_DEFAULT, ConfigDef.Importance.LOW, CHARSET_DOC)
