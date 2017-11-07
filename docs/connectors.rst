@@ -23,20 +23,3 @@ syslog protocol. Syslog messages over UDP per :rfc:`5426`, TCP per :rfc:`6587`, 
     sinks/*
 
 
-.. toctree::
-    :maxdepth: 1
-    :caption: Transformations:
-    :hidden:
-    :glob:
-
-    transformations/*
-
-
-.. toctree::
-    :maxdepth: 0
-    :caption: Schemas:
-    :hidden:
-
-    schemas
-
-
