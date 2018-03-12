@@ -1,0 +1,115 @@
+== Setting up Kafka Connect to ingest `syslog` data
+`https://twitter.com/rmoff/[@rmoff] / 12 Mar 2018`
+
+
+You can set up a Kafka Connect process to act as a syslog server, listening for any inbound syslog messages. This is done with the open source https://github.com/jcustenborder/kafka-connect-syslog[kafka-connect-syslog] connector.
+
+To start, download and build the connector:
+
+[source,bash]
+----
+$ git clone https://github.com/jcustenborder/kafka-connect-syslog.git
+$ cd kafka-connect-syslog
+$ mvn clean package -DskipTests
+[...]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 31.011 s
+[INFO] Finished at: 2018-03-12T10:03:20Z
+[INFO] Final Memory: 43M/398M
+[INFO] ------------------------------------------------------------------------
+----
+
+Configure Kafka Connect to use the plugin, by appending to its configuration `plugin.path`:
+----
+/path/to/kafka-connect-syslog/target/kafka-connect-target/usr/share/kafka-connect
+----
+
+Where `/path/to` is the root folder into which you cloned the git repository.
+
+Start up Connect, and you should see amongst the log in `stdout` the successful registration of the syslog plugins:
+
+----
+INFO Added plugin 'com.github.jcustenborder.kafka.connect.syslog.TCPSyslogSourceConnector' (org.apache.kafka.connect.runtime.isolation.DelegatingClassLoader:135)
+INFO Added plugin 'com.github.jcustenborder.kafka.connect.syslog.SSLTCPSyslogSourceConnector' (org.apache.kafka.connect.runtime.isolation.DelegatingClassLoader:135)
+INFO Added plugin 'com.github.jcustenborder.kafka.connect.syslog.UDPSyslogSourceConnector' (org.apache.kafka.connect.runtime.isolation.DelegatingClassLoader:135)
+----
+
+Now create a connector based on the plugin :
+
+[source,bash]
+----
+curl -i -X POST -H "Accept:application/json" \
+                                -H  "Content-Type:application/json" http://localhost:8083/connectors/ \
+                                -d '{
+                              "name": "syslog",
+                              "config": {
+                                "tasks.max": "1",
+                                "connector.class": "com.github.jcustenborder.kafka.connect.syslog.UDPSyslogSourceConnector",
+                                "kafka.topic": "syslog",
+                                "syslog.port": "42514",
+                                "syslog.reverse.dns.remote.ip":"true"
+                              }
+                            }'
+----
+
+[NOTE]
+====
+I'm configuring the plugin here to listen for syslog on UDP (not TCP, although that's supported too), and on port 42514. If you want to use a port <1024 you'll need to be running the Kafka Connect worker as a privileged used (i.e. root).
+====
+
+=== Testing the syslog Kafka Connect plugin
+
+We can smoke-test the plugin by spoofing a syslog message with the `nc` command:
+
+[source,bash]
+----
+$ echo '<14>I ❤️  logs' | nc -v -u -w 0 localhost 42514
+found 0 associations
+found 1 connections:
+     1: flags=82<CONNECTED,PREFERRED>
+        outif lo0
+        src ::1 port 54613
+        dst ::1 port 42514
+        rank info not available
+
+Connection to localhost port 42514 [udp/*] succeeded!
+----
+
+You should then be able to see this message on the newly-created `syslog` topic:
+
+[source,bash]
+----
+$ kafka-avro-console-consumer \
+                                    --bootstrap-server localhost:9092 \
+                                    --property schema.registry.url=http://localhost:8081 \
+                                    --topic syslog --max-messages=1 --from-beginning|jq '.'
+{
+  "date": null,
+  "facility": {
+    "int": 1
+  },
+  "host": {
+    "string": "I"
+  },
+  "level": {
+    "int": 6
+  },
+  "message": {
+    "string": "I ❤️  logs\n"
+  },
+  "charset": {
+    "string": "UTF-8"
+  },
+  "remote_address": {
+    "string": "/0:0:0:0:0:0:0:1:54613"
+  },
+  "hostname": {
+    "string": "localhost"
+  }
+}
+Processed a total of 1 messages
+----
+
+For more details on the configuration options see the https://github.com/jcustenborder/kafka-connect-syslog/blob/master/README.md[README.md]. 
